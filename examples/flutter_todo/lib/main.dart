@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:flutter_todo/todos_bloc.dart';
+import 'package:flutter_todo/blocs/blocs.dart';
+import 'package:flutter_todo/container/container.dart';
 
-void main() => runApp(App());
+void main() {
+  BlocSupervisor().delegate = SimpleBlocDelegate();
+  runApp(App());
+}
 
 class App extends StatefulWidget {
   @override
@@ -18,8 +23,17 @@ class AppState extends State<App> {
     return BlocProvider<TodosBloc>(
       bloc: _todosBloc,
       child: MaterialApp(
-        title: 'Flutter Demo',
-        home: Todos(),
+        title: 'Bloc Todos',
+        home: Home(),
+        theme: ThemeData(
+          brightness: Brightness.dark,
+          primaryColor: Colors.grey[800],
+          accentColor: Colors.cyan[300],
+          buttonColor: Colors.grey[800],
+          textSelectionColor: Colors.cyan[100],
+          backgroundColor: Colors.grey[800],
+          toggleableActiveColor: Colors.cyan[300],
+        ),
       ),
     );
   }
@@ -28,32 +42,5 @@ class AppState extends State<App> {
   void dispose() {
     _todosBloc.dispose();
     super.dispose();
-  }
-}
-
-class Todos extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Todos')),
-      body: TodosList(),
-    );
-  }
-}
-
-class TodosList extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder(
-      bloc: BlocProvider.of<TodosBloc>(context),
-      builder: (BuildContext context, TodosState state) {
-        return ListView.builder(
-          itemCount: state.todos.length,
-          itemBuilder: (_, index) {
-            return ListTile(title: Text(state.todos[index].value));
-          },
-        );
-      },
-    );
   }
 }

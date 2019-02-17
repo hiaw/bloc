@@ -10,7 +10,8 @@ dependencies:
     sdk: flutter
   flutter_bloc:
     path: ../../packages/flutter_bloc
-  equatable: 0.1.6
+  equatable: ^0.1.0
+  uuid: ^2.0.0
 
 dev_dependencies:
   flutter_test:
